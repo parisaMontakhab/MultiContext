@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import  Button  from "./Button";
-import { CurrentUserContext } from "../App";
+
+import { useUser } from "./context/UserContext";
 
 export default function LoginForm() {
-  const { setCurrentUser } = useContext(CurrentUserContext);
+  const { setUser } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const canLogin = firstName !== "" && lastName !== "";
@@ -28,7 +29,7 @@ export default function LoginForm() {
       <Button
         disabled={!canLogin}
         onClick={() => {
-          setCurrentUser({
+          setUser({
             name: firstName + " " + lastName,
           });
         }}

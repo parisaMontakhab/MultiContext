@@ -1,31 +1,35 @@
 import "./App.css";
-import { createContext, useState } from "react";
+
 import WelcomePanel from "./components/WelcomePanel";
-import MyProviders from "./components/MyProviders";
-export const ThemeContext = createContext(null);
-export const CurrentUserContext = createContext(null);
+
+import ThemeProvider, { useTheme } from "./components/context/ThemeContext";
+import UserProvider from "./components/context/UserContext";
 
 export default function MyApp() {
-  const [theme, setTheme] = useState("light");
   return (
-    <MyProviders theme={theme} setTheme={setTheme}>
+    <ThemeProvider>
+      <UserProvider>
+
       <WelcomePanel />
-      <ToggleTheme  theme={theme} setTheme={setTheme}/>
-    </MyProviders>
+      <ToggleTheme />
+
+      </UserProvider>
+    </ThemeProvider>
   );
 }
 
-function ToggleTheme ({theme,setTheme}){
-  return(
+function ToggleTheme() {
+  const { theme, setTheme } = useTheme();
+  return (
     <label>
-    <input
-      type="checkbox"
-      checked={theme === "dark"}
-      onChange={(e) => {
-        setTheme(e.target.checked ? "dark" : "light");
-      }}
-    />
-    Use dark mode
-  </label>
-  )
+      <input
+        type="checkbox"
+        checked={theme === "dark"}
+        onChange={(e) => {
+          setTheme(e.target.checked ? "dark" : "light");
+        }}
+      />
+      Use dark mode
+    </label>
+  );
 }
